@@ -1,8 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import usematches from '../composables/usematches'
+import useusers from '../composables/useusers'
 
-const balance = ref(10000)
+const userStore = useusers()
+const router = useRouter()
 const selectedBet = ref(null)
 const betAmount = ref('')
 const message = ref('')
@@ -26,28 +29,45 @@ function selectBet(match, result, odd) {
 }
 
 function makeBet() {
+  const currentUser = userStore.getCurrentUser()
   const amount = Number(betAmount.value)
 
+  if (!currentUser) {
+    message.value = 'Сначала войдите в аккаунт'
+    router.push({ name: 'login' })
+    return
+  }
+
   if (!selectedBet.value) {
-    message.value = 'выберите исход матча'
+    message.value = 'Выберите исход матча'
     return
   }
 
   if (!amount || amount <= 0) {
-    message.value = 'введите сумму ставки'
+    message.value = 'Введите сумму ставки'
     return
   }
 
-  if (amount > balance.value) {
-    message.value = 'недостаточно средств на балансе'
+  const result = userStore.minusBalance(amount)
+
+  if (!result) {
+    message.value = 'Недостаточно средств'
     return
   }
 
-  balance.value -= amount
-  message.value = `ставка принята, возможный выигрыш: ${possibleWin.value} ₽`
+    userStore.addBet({
+    match: selectedBet.value.title,
+    result: selectedBet.value.result,
+    odd: selectedBet.value.odd,
+    amount: amount,
+    possibleWin: possibleWin.value,
+    date: new Date().toLocaleString()
+    })
 
+    message.value = `Ставка принята! Возможный выигрыш: ${possibleWin.value} ₽`
   selectedBet.value = null
   betAmount.value = ''
+
 }
 </script>
 
@@ -58,9 +78,13 @@ function makeBet() {
       <p>Ставки на шахматные матчи</p>
     </div>
 
-    <div class="balance">
-      Баланс: {{ balance }} ₽
-    </div>
+    <div class="balance" v-if="userStore.getCurrentUser()">
+  Баланс: {{ userStore.getCurrentUser().balance }} ₽
+</div>
+
+<div class="balance" v-else>
+  Войдите, чтобы делать ставки
+</div>
 
     <div class="layout">
       <div class="matches">
@@ -185,7 +209,7 @@ function makeBet() {
 .match-info {
   display: flex;
   justify-content: space-between;
-  color: #666;
+  color: #000000;
   font-size: 14px;
 }
 

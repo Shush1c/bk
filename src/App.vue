@@ -1,3 +1,18 @@
+<script setup> 
+import useusers from './composables/useusers'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const userStore = useusers()
+
+function isAuth() {
+  return userStore.currentUserId.value !== null
+}
+function logout() {
+  userStore.logout()
+  router.push({ name: 'home' })
+}
+</script>
 <template>
   <div>
     <header class="header">
@@ -7,9 +22,10 @@
         <RouterLink to="/">Главная</RouterLink>
         <RouterLink to="/chess">Шахматы</RouterLink>
         <RouterLink to="/bookmaker">БК</RouterLink>
-        <RouterLink to="/registration">Регистрация</RouterLink>
-        <RouterLink to="/login">Вход</RouterLink>
-        <RouterLink to="/profile">Личный кабинет</RouterLink>
+        <RouterLink v-if="!isAuth()" to="/registration">Регистрация</RouterLink>
+        <RouterLink v-if="!isAuth()" to="/login">Вход</RouterLink>
+        <RouterLink v-if="isAuth()" to="/profile">Личный кабинет</RouterLink>
+        <button v-if="isAuth()" @click="logout">Выйти</button>
       </nav>
     </header>
 
