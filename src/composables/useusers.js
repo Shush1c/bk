@@ -7,7 +7,8 @@ const users = ref([
     password: '123456',
     email: 'admin@mail.ru',
     balance: 10000,
-    role: 'admin'
+    role: 'admin',
+    betHistory: []
   }
 ])
 
@@ -15,24 +16,18 @@ const currentUserId = ref(null)
 const newUserId = ref(2)
 
 function register(newUser) {
-  const found = users.value.find(user => user.login === newUser.login)
-
-  if (found) {
-    return false
-  }
-
   users.value.push({
     id: newUserId.value,
     login: newUser.login,
     password: newUser.password,
     email: newUser.email,
     balance: 1000,
-    role: 'user'
+    role: 'user',
+    betHistory: []
   })
 
   currentUserId.value = newUserId.value
   newUserId.value++
-
   return true
 }
 
@@ -76,6 +71,17 @@ function minusBalance(amount) {
   return false
 }
 
+function addBet(bet) {
+  const user = getCurrentUser()
+
+  if (user) {
+    user.betHistory.push({
+      id: Date.now(),
+      ...bet
+    })
+  }
+}
+
 export default function useusers() {
   return {
     users,
@@ -85,6 +91,7 @@ export default function useusers() {
     logout,
     getCurrentUser,
     addBalance,
-    minusBalance
+    minusBalance,
+    addBet
   }
 }
