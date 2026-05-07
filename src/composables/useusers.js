@@ -15,13 +15,14 @@ const users = ref([
 const currentUserId = ref(null)
 const newUserId = ref(2)
 
+
 function register(newUser) {
   users.value.push({
     id: newUserId.value,
     login: newUser.login,
     password: newUser.password,
     email: newUser.email,
-    balance: 1000,
+    balance: 0,
     role: 'user',
     betHistory: []
   })
@@ -81,6 +82,29 @@ function addBet(bet) {
     })
   }
 }
+function calculateBets(matchId, winner) {
+  users.value.forEach(user => {
+    user.betHistory.forEach(bet => {
+      if (
+        bet.matchId === Number(matchId) &&
+        bet.status === 'Ожидает результата'
+      ) {
+        if (bet.result === winner) {
+          bet.status = 'Выиграла'
+          user.balance += Number(bet.possibleWin)
+        } else {
+          bet.status = 'Проиграла'
+        }
+      }
+    })
+  })
+}
+
+
+function isAdmin() {
+  const user = getCurrentUser()
+  return user && user.role === 'admin'
+}
 
 export default function useusers() {
   return {
@@ -92,6 +116,8 @@ export default function useusers() {
     getCurrentUser,
     addBalance,
     minusBalance,
-    addBet
+    addBet,
+    isAdmin,
+    calculateBets
   }
 }

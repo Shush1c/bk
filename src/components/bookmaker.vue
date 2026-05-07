@@ -21,8 +21,8 @@ function selectBet(match, result, odd) {
   selectedBet.value = {
     matchId: match.id,
     title: `${match.player1} — ${match.player2}`,
-    result,
-    odd
+    result: result,
+    odd: odd
   }
 
   message.value = ''
@@ -55,16 +55,18 @@ function makeBet() {
     return
   }
 
-    userStore.addBet({
-    match: selectedBet.value.title,
-    result: selectedBet.value.result,
-    odd: selectedBet.value.odd,
-    amount: amount,
-    possibleWin: possibleWin.value,
-    date: new Date().toLocaleString()
-    })
+  userStore.addBet({
+  matchId: selectedBet.value.matchId,
+  match: selectedBet.value.title,
+  result: selectedBet.value.result,
+  odd: selectedBet.value.odd,
+  amount: amount,
+  possibleWin: possibleWin.value,
+  status: 'Ожидает результата',
+  date: new Date().toLocaleString()
+})
 
-    message.value = `Ставка принята! Возможный выигрыш: ${possibleWin.value} ₽`
+  message.value = `Ставка принята! Возможный выигрыш: ${possibleWin.value} ₽`
   selectedBet.value = null
   betAmount.value = ''
 
@@ -200,16 +202,16 @@ function makeBet() {
 
 .match-card,
 .coupon {
-  background: white;
+  background: rgb(0, 0, 0);
   border-radius: 18px;
   padding: 22px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.12);
 }
 
 .match-info {
   display: flex;
   justify-content: space-between;
-  color: #000000;
+  color: #ffffff;
   font-size: 14px;
 }
 
@@ -281,7 +283,7 @@ function makeBet() {
   margin-top: 14px;
   padding: 12px;
   border-radius: 12px;
-  background: #f1f1f1;
+  background: #000000;
   font-weight: 700;
 }
 

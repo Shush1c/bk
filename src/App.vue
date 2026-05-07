@@ -1,13 +1,19 @@
-<script setup> 
+<script setup>
 import useusers from './composables/useusers'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
+
 const userStore = useusers()
+const router = useRouter()
 
 function isAuth() {
   return userStore.currentUserId.value !== null
 }
+
+function isAdmin() {
+  return userStore.isAdmin()
+}
+
 function logout() {
   userStore.logout()
   router.push({ name: 'home' })
@@ -16,7 +22,7 @@ function logout() {
 <template>
   <div>
     <header class="header">
-      <RouterLink to="/" class="logo">ChessBet</RouterLink>
+      <RouterLink to="/" class="logo">N-SNUiS</RouterLink>
 
       <nav class="menu">
         <RouterLink to="/">Главная</RouterLink>
@@ -24,8 +30,9 @@ function logout() {
         <RouterLink to="/bookmaker">БК</RouterLink>
         <RouterLink v-if="!isAuth()" to="/registration">Регистрация</RouterLink>
         <RouterLink v-if="!isAuth()" to="/login">Вход</RouterLink>
+        <RouterLink v-if="isAdmin()" :to="{ name: 'adminmatches' }">Лудоволк</RouterLink>
         <RouterLink v-if="isAuth()" to="/profile">Личный кабинет</RouterLink>
-        <button v-if="isAuth()" @click="logout">Выйти</button>
+        <button class="but" v-if="isAuth()" @click="logout">Выйти</button>
       </nav>
     </header>
 
@@ -54,7 +61,8 @@ function logout() {
 
 .menu {
   display: flex;
-  gap: 18px;
+  gap: 35px;
+  height: 20px;
 }
 
 .menu a {
@@ -62,7 +70,9 @@ function logout() {
   text-decoration: none;
   font-weight: 600;
 }
-
+.but {
+  color: #f4c430;
+}
 .menu a:hover {
   color: #f4c430;
 }

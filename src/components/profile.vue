@@ -70,6 +70,16 @@ function logout() {
           <p><b>Сумма ставки:</b> {{ bet.amount }} ₽</p>
           <p><b>Возможный выигрыш:</b> {{ bet.possibleWin }} ₽</p>
           <p><b>Дата:</b> {{ bet.date }}</p>
+          <p
+            class="status"
+            :class="{
+              win: bet.status === 'Выиграла',
+              lose: bet.status === 'Проиграла',
+              wait: bet.status === 'Ожидает результата'
+            }"
+          >
+            <b>Статус:</b> {{ bet.status }}
+          </p>
         </div>
       </div>
 
@@ -108,7 +118,21 @@ function logout() {
   font-size: 22px;
   font-weight: 800;
 }
+.status {
+  font-weight: 800;
+}
 
+.win {
+  color: green;
+}
+
+.lose {
+  color: #c62828;
+}
+
+.wait {
+  color: #b8860b;
+}
 input {
   width: 100%;
   box-sizing: border-box;

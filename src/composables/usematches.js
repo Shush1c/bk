@@ -4,22 +4,26 @@ const matches = ref([
   {
     id: 1,
     tournament: 'Chess Masters',
-    player1: 'Магнус Карлсен',
-    player2: 'Хикару Накамура',
-    date: '20.04.2026',
+    player1: 'Zywoo ',
+    player2: 'S1mple',
+    date: '12.05.2026',
     odds1: 1.75,
     oddsDraw: 3.2,
-    odds2: 2.1
+    odds2: 2.1,
+    status: 'open',
+    winner: ''
   },
   {
     id: 2,
     tournament: 'Grand Chess Cup',
-    player1: 'Ян Непомнящий',
-    player2: 'Алиреза Фируджа',
-    date: '21.04.2026',
-    odds1: 1.9,
-    oddsDraw: 3.0,
-    odds2: 2.0
+    player1: 'Deko',
+    player2: 'Shush1k',
+    date: '12.05.2026',
+    odds1: 15,
+    oddsDraw: 10,
+    odds2: 1.01,
+    status: 'open',
+    winner: ''
   }
 ])
 
@@ -52,11 +56,21 @@ function updateMatch(id, updatedMatch) {
   }
 }
 
+function finishMatch(id, winner) {
+  const match = matches.value.find(match => match.id === Number(id))
+
+  if (match) {
+    match.status = 'finished'
+    match.winner = winner
+  }
+}
+
 export default function usematches() {
   return {
     matches,
     addMatch,
     deleteMatch,
-    updateMatch
+    updateMatch,
+    finishMatch
   }
 }
