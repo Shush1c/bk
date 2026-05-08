@@ -57,7 +57,7 @@ function addBalance(amount) {
   const user = getCurrentUser()
 
   if (user) {
-    user.balance += Number(amount)
+    user.balance = Number((user.balance + Number(amount)).toFixed(2))
   }
 }
 
@@ -65,7 +65,7 @@ function minusBalance(amount) {
   const user = getCurrentUser()
 
   if (user && user.balance >= Number(amount)) {
-    user.balance -= Number(amount)
+    user.balance = Number((user.balance - Number(amount)).toFixed(2))
     return true
   }
 
@@ -91,7 +91,9 @@ function calculateBets(matchId, winner) {
       ) {
         if (bet.result === winner) {
           bet.status = 'Выиграла'
-          user.balance += Number(bet.possibleWin)
+          user.balance = Number(
+              (user.balance + Number(bet.possibleWin)).toFixed(2)
+            )
         } else {
           bet.status = 'Проиграла'
         }

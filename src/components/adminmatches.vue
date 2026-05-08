@@ -145,12 +145,12 @@ function finishMatch(id, winner) {
 .admin-page {
   max-width: 1000px;
   margin: 40px auto;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .form,
 .match {
-  background: white;
+  background: rgb(0, 0, 0);
   padding: 22px;
   border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
