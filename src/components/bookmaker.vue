@@ -33,7 +33,6 @@ function makeBet() {
   const amount = Number(betAmount.value)
 
   if (!currentUser) {
-    message.value = 'Сначала войдите в аккаунт'
     router.push({ name: 'login' })
     return
   }
