@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import useusers from './composables/useusers'
 
+import page404 from './components/404.vue'
 import home from './components/home.vue'
 import chess from './components/chess.vue'
 import bookmaker from './components/bookmaker.vue'
@@ -14,6 +15,7 @@ const routes = [
   { path: '/chess', component: chess, name: 'chess' },
   { path: '/bookmaker', component: bookmaker, name: 'bookmaker' },
   { path: '/login', component: login, name: 'login' },
+  { path: '/404', component: page404, name: 'page404' },
   { path: '/registration', component: registration, name: 'registration' },
   { path: '/profile', component: profile, name: 'profile' },
   {
