@@ -45,11 +45,56 @@ function logout() {
 <style scoped>
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 18px 40px;
-  background: #111;
+  justify-content: space-between;
+
+  height: 80px;             
+  padding: 0 40px;
+
+  background: #111827;
   color: white;
+
+  box-sizing: border-box;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  height: 100%;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 44px;          
+  padding: 0 20px;
+
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+
+  transition: 0.3s;
+}
+body {
+  margin: 0;
+}
+
+#app {
+  min-height: 100vh;
+}
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav a.router-link-active {
+  background: #2563eb;
 }
 
 .logo {

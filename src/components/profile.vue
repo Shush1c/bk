@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import useusers from '../composables/useusers'
 
+
 const router = useRouter()
 const userStore = useusers()
 const cardNumber = ref('')
@@ -13,6 +14,10 @@ const message = ref('')
 const currentUser = computed(() => {
   return userStore.getCurrentUser()
 })
+
+function withdraw() {
+  router.push({ name: 'page404' })
+}
 
 function deposit() {
   message.value = ''
@@ -80,6 +85,10 @@ function deposit() {
   <div v-if="message" class="message">
     {{ message }}
   </div>
+      <h3><button class="withdraw-btn" @click="withdraw">
+  Вывод средств
+</button>
+</h3>
 </div>
 
     <div class="card">
@@ -127,6 +136,21 @@ function deposit() {
 </template>
 
 <style scoped>
+.withdraw-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #000000;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.withdraw-btn:hover {
+  background: #000000;
+}
 .profile-page {
   max-width: 800px;
   margin: 50px auto;
