@@ -1,0 +1,42 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import useusers from './composables/useusers'
+
+import page404 from './components/404.vue'
+import home from './components/home.vue'
+import chess from './components/chess.vue'
+import bookmaker from './components/bookmaker.vue'
+import login from './components/login.vue'
+import registration from './components/registration.vue'
+import profile from './components/profile.vue'
+import adminmatches from './components/adminmatches.vue'
+
+const routes = [
+  { path: '/', component: home, name: 'home' },
+  { path: '/chess', component: chess, name: 'chess' },
+  { path: '/bookmaker', component: bookmaker, name: 'bookmaker' },
+  { path: '/login', component: login, name: 'login' },
+  { path: '/404', component: page404, name: 'page404' },
+  { path: '/registration', component: registration, name: 'registration' },
+  { path: '/profile', component: profile, name: 'profile' },
+  {
+    path: '/admin/matches',
+    component: adminmatches,
+    name: 'adminmatches',
+    meta: { needAdmin: true }
+  }
+]
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+router.beforeEach((to, from, next) => {
+  const userStore = useusers()
+
+  if (to.meta.needAdmin && !userStore.isAdmin()) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
+})
